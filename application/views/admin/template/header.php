@@ -214,12 +214,22 @@
 							<i class="fa fa-dashboard"></i> <span>Dashboard</span>
 						</a>
 					</li>
+
 					<li class="<?php if ($this->uri->uri_string() == 'admin/category/index') {
 									echo 'active';
 								} ?>">
 						<a href=" <?= base_url(); ?>admin/category/index">
 							<i class="fa fa-files-o"></i>
 							<span>Categories</span>
+						</a>
+					</li>
+
+					<li class="<?php if ($this->uri->uri_string() == 'admin/tag/index') {
+									echo 'active';
+								} ?>">
+						<a href=" <?= base_url(); ?>admin/tag/index">
+							<i class="fa fa-files-o"></i>
+							<span>Tags</span>
 						</a>
 					</li>
 				</ul>

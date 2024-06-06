@@ -33,6 +33,7 @@
 
 
 <script src="<?= base_url(); ?>public/admin_assets/js/category-datatable.js"></script>
+<script src="<?= base_url(); ?>public/admin_assets/js/tag-datatable.js"></script>
 
 </body>
 
