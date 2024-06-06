@@ -77,4 +77,30 @@ class Tag extends CI_Controller
 		exit();
 	}
 
+	public function validateTag()
+	{
+		$tagName = $this->input->post('name');
+		$result = $this->tag->isTagUnique($tagName);
+		if ($result) {
+			// The format expected by jQuery Validate's remote method
+			echo json_encode(true);
+		} else {
+			// The format expected by jQuery Validate's remote method
+			echo json_encode(false);
+		}
+	}
+
+	public function store()
+	{
+		$tagName = $this->input->post('name');
+		$result = $this->tag->createTag($tagName);
+		if ($result) {
+			// The format expected by jQuery Validate's remote method
+			echo json_encode(true);
+		} else {
+			// The format expected by jQuery Validate's remote method
+			echo json_encode(false);
+		}
+	}
+
 }

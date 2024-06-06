@@ -12,6 +12,11 @@
 </script>
 <!-- jQuery 3 -->
 <script src="<?= base_url(); ?>public/admin_assets/bower_components/jquery/dist/jquery.min.js"></script>
+<!-- jQuery validate -->
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js"></script>
+<!-- Sweetalert -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <script>
 	$(document).ready(function() {
 		$('.sidebar-menu').tree();

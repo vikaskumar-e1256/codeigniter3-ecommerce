@@ -28,4 +28,17 @@ class Tag_model extends CI_Model
 		$query = $this->db->query($sql, array($search, $search, $limit, $start));
 		return $query->result_array();
 	}
+
+	public function isTagUnique($tagName)
+	{
+		$sql = "SELECT * FROM tags WHERE name = ?";
+		$query = $this->db->query($sql, array($tagName));
+		return empty($query->result_array()); // Return true if no record is found, false otherwise
+	}
+
+	public function createTag($tagName)
+	{
+		$data = array('name' => $tagName, 'slug' => url_title($tagName, 'dash', true));
+		return $this->db->insert('tags', $data);
+	}
 }
