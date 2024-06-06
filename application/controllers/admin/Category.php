@@ -47,7 +47,7 @@ class Category extends CI_Controller
 		} else {
 			$categories =  $this->category->categorySearch($search, $limit, $start, $order, $dir);
 
-			$totalFiltered = $this->category->categorySearchCount($search);
+			$totalFiltered = count($categories);
 		}
 
 		// Prepare the data array

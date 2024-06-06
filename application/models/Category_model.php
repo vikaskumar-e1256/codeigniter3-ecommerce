@@ -29,16 +29,6 @@ class Category_model extends CI_Model
 		return $query->result_array();
 	}
 
-	public function categorySearchCount($search, )
-	{
-		$search = "%$search%";
-		$sql = "SELECT * FROM categories
-            WHERE (id LIKE ? OR name LIKE ?)
-			";
-		$query = $this->db->query($sql, array($search, $search));
-		return $query->num_rows();
-	}
-
 	public function updateStatus($id)
 	{
 		$this->db->select('is_active');
