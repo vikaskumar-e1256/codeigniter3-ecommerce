@@ -12,9 +12,11 @@ class Dashboard extends CI_Controller
 			redirect('admin/login');
 		}
 	}
-	
+
 	public function index()
 	{
+		$this->load->view('admin/template/header', ['title' => 'Dashboard']);
 		$this->load->view('admin/dashboard/index');
+		$this->load->view('admin/template/footer');
 	}
 }
