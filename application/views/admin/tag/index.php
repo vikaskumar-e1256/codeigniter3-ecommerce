@@ -27,10 +27,11 @@ defined('BASEPATH') or exit('No direct script access allowed');
 					</div>
 					<!-- /.box-header -->
 					<div class="box-body">
+						<button id="delete-selected" class="btn btn-danger" style="margin-bottom: 10px;">Delete Selected</button>
 						<table id="tag-list" class="table table-bordered table-striped">
 							<thead>
 								<tr>
-									<th>#</th>
+									<th><input type="checkbox" id="select-all"></th>
 									<th>Name</th>
 									<th class="no-sort">Slug</th>
 									<th>Action</th>

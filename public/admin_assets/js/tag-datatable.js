@@ -4,7 +4,9 @@ $(document).ready(function ()
 		'columnDefs': [{
 			"targets": 'no-sort',
 			"orderable": false,
+
 		}],
+		'aaSorting': [[1, 'asc']],
 		'processing': true,
 		'serverSide': true,
 		'paging': true,
@@ -24,7 +26,13 @@ $(document).ready(function ()
 
 		"aoColumns": [
 			{
-				"data": "id"
+				"data": "id",
+				"render": function (data, type, row)
+				{
+					return '<input type="checkbox" class="row-checkbox" data-id="' + data + '">';
+				},
+				"orderable": false
+
 			},
 			{
 				"data": "name"
@@ -37,6 +45,76 @@ $(document).ready(function ()
 				"orderable": false
 			}
 		]
+	});
+
+	$('#select-all').on('click', function ()
+	{
+		var rows = table.rows({ 'search': 'applied' }).nodes();
+		$('input[type="checkbox"]', rows).prop('checked', this.checked);
+	});
+
+	$('#delete-selected').on('click', function ()
+	{
+		var selectedIds = [];
+		$('.row-checkbox:checked').each(function ()
+		{
+			selectedIds.push($(this).data('id'));
+		});
+
+		if (selectedIds.length === 0)
+		{
+			Swal.fire({
+				icon: 'warning',
+				title: 'No tags selected',
+				text: 'Please select at least one tag to delete.'
+			});
+			return;
+		}
+		
+		Swal.fire({
+			title: "Are you sure?",
+			text: "You won't be able to revert this!",
+			icon: "warning",
+			showCancelButton: true,
+			confirmButtonColor: "#3085d6",
+			cancelButtonColor: "#d33",
+			confirmButtonText: "Yes, delete it!"
+		}).then((result) =>
+		{
+			if (result.isConfirmed)
+			{
+				$.ajax({
+					url: base_url + 'admin/tag/deleteMultiple/',
+					type: 'post',
+					data: {
+						'ids': selectedIds,
+						'csrf_token_max': csrf_token_max
+					},
+					success: function (response)
+					{
+						Swal.fire({
+							title: "Deleted!",
+							text: "Selected tags have been deleted.",
+							icon: "success"
+						});
+						$('#select-all').prop('checked', false);
+
+						table.ajax.reload(null, false);
+
+					},
+					error: function (xhr, status, error)
+					{
+						Swal.fire({
+							position: "top-end",
+							icon: "error",
+							title: "An error occurred: " + error,
+							showConfirmButton: false,
+							timer: 2500,
+						});
+					}
+				});
+			}
+		});
 	});
 
 	// Validation and AJAX submission
@@ -99,6 +177,54 @@ $(document).ready(function ()
 			});
 			return false;
 		}
+	});
+
+	$('#tag-list').on('click', '.delete-tag-btn', function ()
+	{
+		var tagId = $(this).data('id');
+		var csrfToken = csrf_token_max;
+
+		Swal.fire({
+			title: "Are you sure?",
+			text: "You won't be able to revert this!",
+			icon: "warning",
+			showCancelButton: true,
+			confirmButtonColor: "#3085d6",
+			cancelButtonColor: "#d33",
+			confirmButtonText: "Yes, delete it!"
+		}).then((result) =>
+		{
+			if (result.isConfirmed)
+			{
+				$.ajax({
+					url: base_url + 'admin/tag/delete',
+					type: 'post',
+					data: {
+						'id': tagId,
+						'csrf_token_max': csrfToken
+					},
+					success: function (response)
+					{
+						Swal.fire({
+							title: "Deleted!",
+							text: "Your file has been deleted.",
+							icon: "success"
+						});
+						table.ajax.reload(null, false);
+					},
+					error: function (xhr, status, error)
+					{
+						Swal.fire({
+							position: "top-end",
+							icon: "error",
+							title: "An error occurred: " + error,
+							showConfirmButton: false,
+							timer: 2500,
+						});
+					}
+				});
+			}
+		});
 	});
 
 });

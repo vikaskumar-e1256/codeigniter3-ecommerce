@@ -54,7 +54,8 @@ class Tag extends CI_Controller
 			foreach ($tags as $key => $row) {
 				$id = $row['id'];
 
-				$actionBtn = "<a href='javascript:;' onClick='editTag($id)'><i class='fa fa-edit'></i></a>";
+				$actionBtn = "<a href='javascript:;' onClick='editTag($id)'><i class='fa fa-edit'></i></a>
+							&nbsp; <a href='javascript:;' data-id='$id' style='color:red' class='delete-tag-btn'><i class='fa fa-trash-o'></i></a>";
 				$data[] = [
 					'id' => $row['id'],
 					'name' => $row['name'],
@@ -101,6 +102,24 @@ class Tag extends CI_Controller
 			// The format expected by jQuery Validate's remote method
 			echo json_encode(false);
 		}
+	}
+
+	public function delete()
+	{
+		$tagId = $this->input->post('id');
+
+		if ($this->tag->deleteTag($tagId)) {
+			echo json_encode(['success' => true]);
+		} else {
+			echo json_encode(['success' => false]);
+		}
+	}
+
+	public function deleteMultiple()
+	{
+		$ids = $this->input->post('ids');
+		$result = $this->tag->deleteTags($ids);
+		echo json_encode($result);
 	}
 
 }

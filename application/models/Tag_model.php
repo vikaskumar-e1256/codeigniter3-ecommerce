@@ -41,4 +41,42 @@ class Tag_model extends CI_Model
 		$data = array('name' => $tagName, 'slug' => url_title($tagName, 'dash', true));
 		return $this->db->insert('tags', $data);
 	}
+
+	public function deleteTag($tagId)
+	{
+		$tagId = (int)$tagId;
+
+		$this->db->where('id', $tagId);
+		$query = $this->db->get('tags');
+
+		if ($query->num_rows() > 0) {
+
+			$this->db->where('id', $tagId);
+			if ($this->db->delete('tags')) {
+				return true;
+			} else {
+				return false;
+			}
+		} else {
+			return false;
+		}
+	}
+
+	public function deleteTags(array $ids)
+	{
+		if (empty($ids)) {
+			return ['success' => false, 'message' => 'No IDs provided for deletion.'];
+		}
+
+		$this->db->where_in('id', $ids);
+		$this->db->delete('tags');
+
+		if ($this->db->affected_rows() > 0) {
+			return ['success' => true, 'message' => 'Tags deleted successfully.'];
+		} else {
+			return ['success' => false, 'message' => 'Failed to delete tags or tags not found.'];
+		}
+	}
+
+
 }
