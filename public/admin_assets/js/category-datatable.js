@@ -72,4 +72,56 @@ $(document).ready(function ()
 		});
 	};
 
+	$('#submitBtn').on('click', function (e)
+	{
+		e.preventDefault();
+		var form = $('#category-form')[0];
+		var formData = new FormData(form);
+		formData.append('csrf_token_max', csrf_token_max);
+
+		$.ajax({
+			url: base_url + "admin/category/store",
+			type: 'post',
+			data: formData,
+			contentType: false,
+			processData: false,
+			success: function (response)
+			{
+				var res = JSON.parse(response);
+				if (res.success)
+				{
+					form.reset();
+					$('#modal-category').modal('hide');
+					Swal.fire({
+						position: "top-end",
+						icon: "success",
+						title: "Category created successfully",
+						showConfirmButton: false,
+						timer: 2500,
+					});
+				}
+				else
+				{
+					Swal.fire({
+						position: "top-end",
+						icon: "error",
+						title: "An error occurred: " + res.message,
+						showConfirmButton: false,
+						timer: 2500,
+					});
+				}
+			},
+			error: function (xhr, status, error)
+			{
+				Swal.fire({
+					position: "top-end",
+					icon: "error",
+					title: "An error occurred: " + error,
+					showConfirmButton: false,
+					timer: 2500,
+				});
+			}
+		});
+	});
+
 });

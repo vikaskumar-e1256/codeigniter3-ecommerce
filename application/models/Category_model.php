@@ -13,7 +13,33 @@ class Category_model extends CI_Model
 
 	public function getCategories($limit, $start, $column, $dir)
 	{
-		$sql = "SELECT * FROM categories ORDER BY $column $dir LIMIT ? OFFSET ?";
+		// Mapping of frontend column names to database column names and tables
+		$columnMappings = [
+			'id' => 'categories.id',
+			'name' => 'categories.name',
+			'media_id' => 'categories.media_id',
+			'is_active' => 'categories.is_active',
+		];
+
+		// Default column and table
+		$orderByColumn = 'categories.id';
+
+		// Check if the provided column is valid and map it to the database column name
+		if (array_key_exists($column, $columnMappings)) {
+			$orderByColumn = $columnMappings[$column];
+		}
+
+		// Prepare the SQL query
+		$sql = "SELECT categories.*,
+				CASE
+					WHEN media.file_path IS NOT NULL
+					THEN CONCAT('" . base_url() . "', media.file_path)
+					ELSE ''
+				END AS full_file_path
+				FROM categories
+				LEFT JOIN media ON categories.media_id = media.id
+				ORDER BY $orderByColumn $dir LIMIT ? OFFSET ?";
+
 		$query = $this->db->query($sql, array($limit, $start));
 		return $query->result_array();
 	}
@@ -56,7 +82,34 @@ class Category_model extends CI_Model
 		}
 	}
 
+	public function getTags()
+	{
+		$sql = "SELECT id, name FROM tags";
+		$query = $this->db->query($sql);
+		return $query->result_array();
+	}
 
+	public function insertCategory($data)
+	{
+		$this->db->insert('categories', $data);
+		return $this->db->insert_id();
+
+	}
+
+	public function linkTags($categoryId, $tags)
+	{
+		$data = array();
+		foreach ($tags as $tag) {
+			$data[] = array(
+				'category_id' => $categoryId,
+				'tag_id' => $tag
+			);
+		}
+
+		if (!empty($data)) {
+			$this->db->insert_batch('category_tags', $data);
+		}
+	}
 
 
 }

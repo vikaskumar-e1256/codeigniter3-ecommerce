@@ -19,7 +19,8 @@
 	<link rel="stylesheet" href="<?= base_url(); ?>public/admin_assets/dist/css/AdminLTE.min.css">
 
 	<link rel="stylesheet" href="<?= base_url(); ?>public/admin_assets/dist/css/skins/_all-skins.min.css">
-
+	<!-- Select2 -->
+	<link rel="stylesheet" href="<?= base_url(); ?>public/admin_assets/bower_components/select2/dist/css/select2.min.css">
 	<!-- Google Font -->
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 </head>

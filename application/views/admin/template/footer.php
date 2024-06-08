@@ -14,12 +14,16 @@
 <script src="<?= base_url(); ?>public/admin_assets/bower_components/jquery/dist/jquery.min.js"></script>
 <!-- jQuery validate -->
 <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js"></script>
+<script src="http://jqueryvalidation.org/files/dist/additional-methods.min.js"></script>
+
 <!-- Sweetalert -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
 	$(document).ready(function() {
 		$('.sidebar-menu').tree();
+		//Initialize Select2 Elements
+		$('#tags').select2();
 	});
 </script>
 <!-- DataTables -->
@@ -35,7 +39,8 @@
 <script src="<?= base_url(); ?>public/admin_assets/dist/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="<?= base_url(); ?>public/admin_assets/dist/js/demo.js"></script>
-
+<!-- Select2 -->
+<script src="<?= base_url(); ?>public/admin_assets/bower_components/select2/dist/js/select2.full.min.js"></script>
 
 <script src="<?= base_url(); ?>public/admin_assets/js/category-datatable.js"></script>
 <script src="<?= base_url(); ?>public/admin_assets/js/tag-datatable.js"></script>
